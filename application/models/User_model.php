@@ -101,4 +101,14 @@ class User_model extends CI_Model
 			}
 		}
 	}
+
+	public function register($data)
+	{
+		$insert = $this->db->insert('masyarakat', $data);
+		if ($insert) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
