@@ -73,7 +73,7 @@ class Auth extends CI_Controller
 
 		if ($this->form_validation->run() == False) {
 			$response = [
-				'status' => false,
+				'status' => "error",
 				'code' > 500,
 				'message' => 'Gagal register'
 			];
@@ -93,7 +93,7 @@ class Auth extends CI_Controller
 			$register = $this->user_model->register($data);
 			if ($register == TRUE) {
 				$response = [
-					'status' => true,
+					'status' => "success",
 					'code' => 200,
 					'message' => 'Berhasil register'
 				];
@@ -101,7 +101,7 @@ class Auth extends CI_Controller
 				echo json_encode($response);
 			} else {
 				$response = [
-					'status' => false,
+					'status' => "error",
 					'code' => 500,
 					'message' => 'Gagal register'
 				];
