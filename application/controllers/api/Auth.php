@@ -19,9 +19,22 @@ class Auth extends CI_Controller
 		$validate = $this->user_model->auth($username, $password);
 
 		if ($validate != false) {
-			echo 'berhasil login';
+			$response = [
+				'status' => true,
+				'code' => 200,
+				'message' => 'Selamat Datang' . ' ' . $validate['username'],
+				'data' => $validate
+			];
+
+			echo json_encode($response);
 		} else {
-			echo 'gagal login';
+			$response = [
+				'status' => false,
+				'code' => 500,
+				'message' => 'Username atau password anda salah'
+			];
+
+			echo json_encode($response);
 		}
 	}
 }

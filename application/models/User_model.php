@@ -97,7 +97,7 @@ class User_model extends CI_Model
 			if (password_verify($password, $rsltUnm['password'])) {
 				return $rsltUnm;
 			} else {
-				return null;
+				return false;
 			}
 		}
 	}
