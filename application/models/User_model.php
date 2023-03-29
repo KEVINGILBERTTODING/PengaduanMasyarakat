@@ -122,4 +122,18 @@ class User_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function passValidation($userId, $passwordOld)
+	{
+		$this->db->select('password');
+		$this->db->from('masyarakat');
+		$this->db->where('id_masyarakat', $userId);
+		$dataUser = $this->db->get()->row_array();
+
+		if (password_verify($passwordOld, $dataUser['password'])) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

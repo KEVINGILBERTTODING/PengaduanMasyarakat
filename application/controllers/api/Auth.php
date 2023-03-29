@@ -146,6 +146,45 @@ class Auth extends CI_Controller
 			echo json_encode($response);
 		}
 	}
+
+	public function updatePassword()
+	{
+		$passwordOld = $this->input->post("password_old");
+		$passwordNew = $this->input->post("password_new");
+		$idMasyarakat = $this->input->post("id_masyarakat");
+
+		$validatePass = $this->user_model->passValidation($idMasyarakat, $passwordOld);
+		if ($validatePass == true) {
+			$data = [
+				'password' => password_hash($passwordNew, PASSWORD_DEFAULT)
+			];
+
+			$update = $this->user_model->update($idMasyarakat, $data);
+			if ($update == true) {
+				$response = [
+					'ssuccess' => 'success',
+					'code' => 200,
+					'message' => 'Berhasil mengubah password'
+				];
+
+				echo json_encode($response);
+			} else {
+				$response = [
+					'status' => "error",
+					'code' => 500,
+					'message' => 'Gagal mengubah password'
+				];
+				echo json_encode($response);
+			}
+		} else {
+			$response = [
+				'status' => "error",
+				'code' => 500,
+				'message' => 'Password lama tidak sesuai'
+			];
+			echo json_encode($response);
+		}
+	}
 }
 
 
