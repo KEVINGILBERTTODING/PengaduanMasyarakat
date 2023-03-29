@@ -20,16 +20,18 @@ class Auth extends CI_Controller
 
 		if ($validate != false) {
 			$response = [
-				'status' => true,
+				'status' => "success",
 				'code' => 200,
 				'message' => 'Selamat Datang' . ' ' . $validate['username'],
+				'username' => $validate['username'],
+				'id_masyarakat' => $validate['id_masyarakat'],
 				'data' => $validate
 			];
 
 			echo json_encode($response);
 		} else {
 			$response = [
-				'status' => false,
+				'status' => "error",
 				'code' => 500,
 				'message' => 'Username atau password anda salah'
 			];
@@ -108,6 +110,40 @@ class Auth extends CI_Controller
 
 				echo json_encode($response);
 			}
+		}
+	}
+
+	public function updateProfile()
+	{
+
+		$nama = $this->input->post("nama");
+		$no_telp = $this->input->post("no_telp");
+		$alamat = $this->input->post("alamat");
+		$masyarakaId = $this->input->post("id_masyarakat");
+		$data = [
+			'nama' => $nama,
+			'no_telepon' => $no_telp,
+			'alamat' => $alamat
+		];
+
+
+		$update = $this->user_model->update($masyarakaId, $data);
+		if ($update ==  true) {
+			$response = [
+				'status' => "success",
+				'code' => 200,
+				'message' => "Berhasil mengubah profile"
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => "error",
+				'code' => 500,
+				'message' => "Gagal mengubah profile pengguna"
+			];
+
+			echo json_encode($response);
 		}
 	}
 }

@@ -111,4 +111,15 @@ class User_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function update($id, $data)
+	{
+		$update = $this->db->where('id_masyarakat', $id);
+		$update = $this->db->update('masyarakat', $data);
+		if ($update) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
