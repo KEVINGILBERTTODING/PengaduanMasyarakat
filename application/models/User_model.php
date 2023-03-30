@@ -136,4 +136,12 @@ class User_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function getUserByUserId($id)
+	{
+		$this->db->select('*');
+		$this->db->from('masyarakat');
+		$this->db->where('id_masyarakat', $id);
+		return $this->db->get()->result_array();
+	}
 }

@@ -162,7 +162,7 @@ class Auth extends CI_Controller
 			$update = $this->user_model->update($idMasyarakat, $data);
 			if ($update == true) {
 				$response = [
-					'ssuccess' => 'success',
+					'status' => 'success',
 					'code' => 200,
 					'message' => 'Berhasil mengubah password'
 				];
