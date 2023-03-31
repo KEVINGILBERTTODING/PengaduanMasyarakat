@@ -9,6 +9,7 @@ class User extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('User_model', 'user_model');
+		$this->load->model('Saran_model', 'saran_model');
 	}
 
 
@@ -18,6 +19,41 @@ class User extends CI_Controller
 		$userData = $this->user_model->getUserByUserId($userId);
 
 		echo json_encode($userData);
+	}
+
+	public function insertSaran()
+	{
+		$nama = $this->input->post('nama');
+		$no_telepon = $this->input->post('no_telepon');
+		$alamat = $this->input->post('alamat');
+		$saran = $this->input->post('saran');
+
+		$data = [
+			'nama' => $nama,
+			'no_telepon' => $no_telepon,
+			'alamat' => $alamat,
+			'saran' => $saran,
+			'tgl_saran' => date('Y-m-d H:i:s')
+		];
+
+		$insert = $this->saran_model->inseertSaran($data);
+		if ($insert == true) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil mengirimkan saran'
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal mengirimkan saran'
+			];
+
+			echo json_encode($response);
+		}
 	}
 }
 

@@ -24,6 +24,7 @@ class Auth extends CI_Controller
 				'code' => 200,
 				'message' => 'Selamat Datang' . ' ' . $validate['username'],
 				'username' => $validate['username'],
+				'nama' => $validate['nama'],
 				'id_masyarakat' => $validate['id_masyarakat'],
 				'data' => $validate
 			];

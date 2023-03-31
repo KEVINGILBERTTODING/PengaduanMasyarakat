@@ -24,8 +24,8 @@ class Pengaduan extends CI_Controller
 		$this->load->library('upload', $config);
 		$data = array();
 
-		if ($this->upload->do_upload('image1')) {
-			$data['image1'] = $this->upload->data('file_name');
+		if ($this->upload->do_upload('foto')) {
+			$data['foto'] = $this->upload->data('file_name');
 		} else {
 			$response = [
 				'status' => 'error',
@@ -35,20 +35,20 @@ class Pengaduan extends CI_Controller
 			echo json_encode($response);
 		}
 
-		if ($this->upload->do_upload('image2')) {
-			$data['image2'] = $this->upload->data('file_name');
+		if ($this->upload->do_upload('foto1')) {
+			$data['foto1'] = $this->upload->data('file_name');
 		} else {
 			$data['error'] = $this->upload->display_errors();
 		}
 
-		if ($this->upload->do_upload('image3')) {
-			$data['image3'] = $this->upload->data('file_name');
+		if ($this->upload->do_upload('foto2')) {
+			$data['foto2'] = $this->upload->data('file_name');
 		} else {
 			$data['error'] = $this->upload->display_errors();
 		}
 
 		if (isset($data['error'])) {
-			echo json_encode($data['error']);
+			// echo json_encode($data['error']);
 		} else {
 
 			$isiLaporan = $this->input->post('isi_laporan');
@@ -62,9 +62,9 @@ class Pengaduan extends CI_Controller
 				'isi_laporan' => $isiLaporan,
 				'jenis' => $jenis,
 				'tgl_pengaduan' => $tglPengaduan,
-				'foto' => $data['image1'],
-				'foto1' => $data['image2'],
-				'foto2' => $data['image3'],
+				'foto' => $data['foto'],
+				'foto1' => $data['foto1'],
+				'foto2' => $data['foto2'],
 				'id_masyarakat' => $idMasyarakat,
 				'id_kelurahan' => $idKelurahan,
 
@@ -101,6 +101,12 @@ class Pengaduan extends CI_Controller
 		$idKecamatan = $this->input->get("id_kecamatan");
 		$kelurahan = $this->pengaduan_model->getkelurahan($idKecamatan);
 		echo json_encode($kelurahan);
+	}
+
+	public function getAllPengaduan()
+	{
+		$data = $this->pengaduan_model->getAllPengaduan();
+		echo json_encode($data);
 	}
 }
 
