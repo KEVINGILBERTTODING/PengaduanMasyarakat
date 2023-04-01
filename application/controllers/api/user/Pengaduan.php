@@ -108,6 +108,18 @@ class Pengaduan extends CI_Controller
 		$data = $this->pengaduan_model->getAllPengaduan();
 		echo json_encode($data);
 	}
+
+
+	public function getPengaduanByUserId()
+	{
+		$idMasyarakat = $this->input->get('id_masyarakat');
+		$jenis = $this->input->get("jenis");
+		$data = $this->pengaduan_model->getPengaduanByUserId($jenis, $idMasyarakat);
+		if ($data != null) {
+			echo json_encode($data);
+		} else {
+		}
+	}
 }
 
 
