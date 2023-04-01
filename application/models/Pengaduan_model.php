@@ -291,4 +291,14 @@ class Pengaduan_model extends CI_Model
 		$this->db->where('pengaduan.id_pengaduan', $id_pengaduan);
 		return $this->db->get()->result();
 	}
+
+
+	public function getTanggapanById($idPengaduan)
+	{
+		$this->db->select('tanggapan.*, user.username');
+		$this->db->from('tanggapan');
+		$this->db->join('user', 'user.id_user = tanggapan.id_user', 'left');
+		$this->db->where('tanggapan.id_pengaduan', $idPengaduan);
+		return $this->db->get()->result();
+	}
 }

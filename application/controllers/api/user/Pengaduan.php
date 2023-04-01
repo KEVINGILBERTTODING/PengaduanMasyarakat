@@ -225,7 +225,17 @@ class Pengaduan extends CI_Controller
 		$data = $this->pengaduan_model->getPengaduanByIdPengaduan($idPengaduan);
 		echo json_encode($data);
 	}
+
+
+	public function getTanggapanById()
+	{
+		$idPengaduan = $this->input->get('id_pengaduan');
+		$data = $this->pengaduan_model->getTanggapanById($idPengaduan);
+		echo json_encode($data);
+	}
 }
+
+
 
 
 /* End of file Login.php */
