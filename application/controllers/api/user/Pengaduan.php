@@ -120,6 +120,111 @@ class Pengaduan extends CI_Controller
 		} else {
 		}
 	}
+
+	public function update()
+	{
+
+
+		$isiLaporan = $this->input->post('isi_laporan');
+		$id_pengaduan = $this->input->post('id_pengaduan');
+		$jenis = $this->input->post('jenis');
+		$tglPengaduan = date('Y-m-d H:i:s');
+		$idMasyarakat = $this->input->post('id_masyarakat');
+		$idKelurahan = $this->input->post('id_kelurahan');
+
+
+		$data = [
+			'isi_laporan' => $isiLaporan,
+			'jenis' => $jenis,
+			'tgl_pengaduan' => $tglPengaduan,
+			'id_masyarakat' => $idMasyarakat,
+			'id_kelurahan' => $idKelurahan,
+
+
+		];
+
+		$update = $this->pengaduan_model->updatePengaduan($id_pengaduan, $data);
+		if ($update == true) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil mengubah pengaduan'
+			];
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal mengubah pengaduan'
+			];
+			echo json_encode($response);
+		}
+	}
+
+	public function updateImage()
+	{
+
+		$field = $this->input->post('field');
+		$id_pengaduan = $this->input->post('id_pengaduan');
+
+		$config['upload_path'] = './assets/img/img_pengaduan/';
+		$config['allowed_types'] = 'gif|jpg|jpeg|png';
+		$config['max_size'] = '2048';
+
+		$this->load->library('upload', $config);
+		$data = array();
+
+		if ($this->upload->do_upload('foto')) {
+			$data['foto'] = $this->upload->data('file_name');
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 400
+
+			];
+			echo json_encode($response);
+		}
+
+		if (isset($data['error'])) {
+			echo json_encode($data['error']);
+		} else {
+
+
+
+
+			$data = [
+
+				$field => $data['foto'],
+				'tgl_pengaduan' => date('Y-m-d H:i:S')
+
+
+			];
+
+			$update = $this->pengaduan_model->updatePengaduan($id_pengaduan, $data);
+			if ($update == true) {
+				$response = [
+					'status' => 'success',
+					'code' => 200,
+					'message' => 'Berhasil mengubah pengaduan'
+				];
+				echo json_encode($response);
+			} else {
+				$response = [
+					'status' => 'error',
+					'code' => 500,
+					'message' => 'Gagal mengubah pengaduan'
+				];
+				echo json_encode($response);
+			}
+		}
+	}
+
+	public function getPengaduanById()
+	{
+		$idPengaduan = $this->input->get('id_pengaduan');
+		$data = $this->pengaduan_model->getPengaduanByIdPengaduan($idPengaduan);
+		echo json_encode($data);
+	}
 }
 
 

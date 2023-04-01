@@ -268,4 +268,27 @@ class Pengaduan_model extends CI_Model
 		$this->db->where('pengaduan.id_masyarakat', $userId);
 		return $this->db->get()->result();
 	}
+
+	public function updatePengaduan($id, $data)
+	{
+
+		$update = $this->db->where('id_pengaduan', $id);
+		$update = $this->db->update('pengaduan', $data);
+		if ($update) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function getPengaduanByIdPengaduan($id_pengaduan)
+	{
+		$this->db->select('pengaduan.*, masyarakat.nama as nama_pelapor, kelurahan.kelurahan as nama_kelurahan');
+		$this->db->from('pengaduan');
+		$this->db->join('masyarakat', 'masyarakat.id_masyarakat = pengaduan.id_masyarakat', 'left');
+		$this->db->join('kelurahan', 'kelurahan.id_kelurahan = pengaduan.id_kelurahan', 'left');
+		$this->db->order_by('pengaduan.id_pengaduan', 'desc');
+		$this->db->where('pengaduan.id_pengaduan', $id_pengaduan);
+		return $this->db->get()->result();
+	}
 }
