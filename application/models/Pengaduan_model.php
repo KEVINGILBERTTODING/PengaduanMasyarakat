@@ -301,8 +301,7 @@ class Pengaduan_model extends CI_Model
 		$this->db->order_by('pengaduan.id_pengaduan', 'desc');
 		$this->db->where('pengaduan.status_pengaduan', $jenis);
 		$this->db->where('pengaduan.id_masyarakat', $userId);
-		$this->db->where('pengaduan.tgl_pengaduan >=', $dateStart);
-		$this->db->where('pengaduan.tgl_pengaduan <=', $dateEnd);
+		$this->db->where("pengaduan.tgl_pengaduan BETWEEN '$dateStart 00:00:00' AND '$dateEnd 23:59:59'");
 		return $this->db->get()->result();
 	}
 
@@ -314,8 +313,7 @@ class Pengaduan_model extends CI_Model
 		$this->db->join('kelurahan', 'kelurahan.id_kelurahan = pengaduan.id_kelurahan', 'left');
 		$this->db->order_by('pengaduan.id_pengaduan', 'desc');
 		$this->db->where('pengaduan.id_masyarakat', $userId);
-		$this->db->where('pengaduan.tgl_pengaduan >=', $dateStart);
-		$this->db->where('pengaduan.tgl_pengaduan <=', $dateEnd);
+		$this->db->where("pengaduan.tgl_pengaduan BETWEEN '$dateStart 00:00:00' AND '$dateEnd 23:59:59'");
 		return $this->db->get()->result();
 	}
 }
