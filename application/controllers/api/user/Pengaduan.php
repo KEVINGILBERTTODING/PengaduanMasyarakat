@@ -233,6 +233,17 @@ class Pengaduan extends CI_Controller
 		$data = $this->pengaduan_model->getTanggapanById($idPengaduan);
 		echo json_encode($data);
 	}
+
+	public function filterPengaduan()
+	{
+		$idMasyarakat  = $this->input->get('id_masyarakat');
+		$jenis = $this->input->get('jenis');
+		$dateStart = $this->input->get('date_start');
+		$dateEnd = $this->input->get('date_end');
+
+		$data = $this->pengaduan_model->getFilterPengaduan($jenis, $idMasyarakat, $dateStart, $dateEnd);
+		echo json_encode($data);
+	}
 }
 
 
