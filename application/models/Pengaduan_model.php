@@ -303,7 +303,19 @@ class Pengaduan_model extends CI_Model
 		$this->db->where('pengaduan.id_masyarakat', $userId);
 		$this->db->where('pengaduan.tgl_pengaduan >=', $dateStart);
 		$this->db->where('pengaduan.tgl_pengaduan <=', $dateEnd);
+		return $this->db->get()->result();
+	}
 
+	public function getFilterPengaduanSemua($userId, $dateStart, $dateEnd)
+	{
+		$this->db->select('pengaduan.*, masyarakat.nama as nama_pelapor, kelurahan.kelurahan as nama_kelurahan');
+		$this->db->from('pengaduan');
+		$this->db->join('masyarakat', 'masyarakat.id_masyarakat = pengaduan.id_masyarakat', 'left');
+		$this->db->join('kelurahan', 'kelurahan.id_kelurahan = pengaduan.id_kelurahan', 'left');
+		$this->db->order_by('pengaduan.id_pengaduan', 'desc');
+		$this->db->where('pengaduan.id_masyarakat', $userId);
+		$this->db->where('pengaduan.tgl_pengaduan >=', $dateStart);
+		$this->db->where('pengaduan.tgl_pengaduan <=', $dateEnd);
 		return $this->db->get()->result();
 	}
 }
