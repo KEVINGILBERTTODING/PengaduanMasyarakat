@@ -319,4 +319,12 @@ class User_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function getAllMasyarakat()
+	{
+		$this->db->select('*');
+		$this->db->from('masyarakat');
+		$this->db->order_by('username', 'DESC');
+		return $this->db->get()->result();
+	}
 }

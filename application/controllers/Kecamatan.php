@@ -1,7 +1,7 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kecamatan extends CI_Controller 
+class Kecamatan extends CI_Controller
 {
 	public function __construct()
 	{
@@ -29,11 +29,11 @@ class Kecamatan extends CI_Controller
 
 		$this->form_validation->set_rules('kecamatan', 'Kecamatan', 'required|trim');
 		if ($this->form_validation->run() == false) {
-		    $this->load->view('templates/header-admin', $data);
-		    $this->load->view('kecamatan/add_kecamatan', $data);
-		    $this->load->view('templates/footer-admin', $data);  
+			$this->load->view('templates/header-admin', $data);
+			$this->load->view('kecamatan/add_kecamatan', $data);
+			$this->load->view('templates/footer-admin', $data);
 		} else {
-		    $this->kemo->addKecamatan();
+			$this->kemo->addKecamatan();
 		}
 	}
 
@@ -45,11 +45,11 @@ class Kecamatan extends CI_Controller
 
 		$this->form_validation->set_rules('kecamatan', 'Kecamatan', 'required|trim');
 		if ($this->form_validation->run() == false) {
-		    $this->load->view('templates/header-admin', $data);
-		    $this->load->view('kecamatan/edit_kecamatan', $data);
-		    $this->load->view('templates/footer-admin', $data);  
+			$this->load->view('templates/header-admin', $data);
+			$this->load->view('kecamatan/edit_kecamatan', $data);
+			$this->load->view('templates/footer-admin', $data);
 		} else {
-		    $this->kemo->editKecamatan($id_kecamatan);
+			$this->kemo->editKecamatan($id_kecamatan);
 		}
 	}
 
@@ -57,5 +57,32 @@ class Kecamatan extends CI_Controller
 	{
 		$data['dataUser']	= $this->admo->getDataUserAdmin();
 		$this->kemo->removeKecamatan($id_kecamatan);
+	}
+
+
+	public function insertKecamatan()
+	{
+		$data = [
+			'kecamatan' => $this->input->post('kecamatan')
+		];
+
+		$insert = $this->kecamatan_model->insertKecamatan($data);
+		if ($insert == true) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil menambahkan kecamatan baru'
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal menambahkan kecamatan baru'
+			];
+
+			echo json_encode($response);
+		}
 	}
 }

@@ -1,7 +1,7 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kecamatan_model extends CI_Model 
+class Kecamatan_model extends CI_Model
 {
 	public function __construct()
 	{
@@ -13,12 +13,12 @@ class Kecamatan_model extends CI_Model
 	public function getKecamatan()
 	{
 		$this->db->order_by('kecamatan', 'asc');
-		return $this->db->get('kecamatan')->result_array();	
+		return $this->db->get('kecamatan')->result_array();
 	}
 
 	public function getKecamatanById($id_kecamatan)
 	{
-		return $this->db->get_where('kecamatan', ['id_kecamatan' => $id_kecamatan])->row_array();	
+		return $this->db->get_where('kecamatan', ['id_kecamatan' => $id_kecamatan])->row_array();
 	}
 
 	public function addKecamatan()
@@ -67,12 +67,53 @@ class Kecamatan_model extends CI_Model
 
 		$data_kecamatan = $this->getKecamatanById($id_kecamatan);
 		$kecamatan  = $data_kecamatan['kecamatan'];
-		
+
 		$this->db->delete('kelurahan', ['id_kecamatan' => $id_kecamatan]);
 		$this->db->delete('kecamatan', ['id_kecamatan' => $id_kecamatan]);
 		$isi_log = 'Kecamatan ' . $kecamatan . ' berhasil dihapus';
 		$this->lomo->addLog($isi_log, $dataUser['id_user']);
 		$this->session->set_flashdata('message-success', $isi_log);
-		redirect('kecamatan'); 
+		redirect('kecamatan');
+	}
+
+	public function getAllKecamatan()
+	{
+		$this->db->select('*');
+		$this->db->from('kecamatan');
+		return $this->db->get()->result();
+	}
+
+	public function updateKecamatan($id, $data)
+	{
+		$update = $this->db->where('id_kecamatan', $id);
+		$update = $this->db->update('kecamatan', $data);
+
+		if ($update) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function deleteKecamatan($id)
+	{
+		$delete = $this->db->where('id_kecamatan', $id);
+		$delete = $this->db->delete('kecamatan');
+
+		if ($delete) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function insertKecamatan($data)
+	{
+		$insert = $this->db->insert('kecamatan', $data);
+		if ($insert) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

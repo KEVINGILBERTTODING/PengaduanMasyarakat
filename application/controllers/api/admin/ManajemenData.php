@@ -9,6 +9,7 @@ class ManajemenData extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('User_model', 'user_model');
+		$this->load->model('Kecamatan_model', 'kecamatan_model');
 	}
 	public function getAllUser()
 	{
@@ -155,7 +156,7 @@ class ManajemenData extends CI_Controller
 		$idUser = $this->input->post('id_masyarakat');
 		$data = [
 			'nama' => $this->input->post('nama'),
-			'no_telepon' => $this->input->post('no_telp'),
+			'no_telepon' => $this->input->post('no_telepon'),
 			'alamat' => $this->input->post('alamat'),
 			'nik' => $this->input->post('nik')
 		];
@@ -226,6 +227,90 @@ class ManajemenData extends CI_Controller
 
 				echo json_encode($response);
 			}
+		}
+	}
+
+	public function getKecamatan()
+	{
+		$data = $this->kecamatan_model->getAllKecamatan();
+		echo json_encode($data);
+	}
+
+	public function deleteKecamatan()
+	{
+		$idKecamatan = $this->input->post('id_kecamatan');
+		$delete = $this->kecamatan_model->deleteKecamatan($idKecamatan);
+		if ($delete == true) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil mengahapus kecamatan'
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal mengahapus kecamatan'
+			];
+
+			echo json_encode($response);
+		}
+	}
+
+
+	public function updateKecamatan()
+	{
+		$idKecamatan = $this->input->post('id_kecamatan');
+		$data = [
+			'kecamatan' => $this->input->post('kecamatan')
+		];
+		$update = $this->kecamatan_model->updateKecamatan($idKecamatan, $data);
+		if ($update == true) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil mengubah data kecamatan'
+			];
+
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal mengubah data kecamatan'
+			];
+
+
+			echo json_encode($response);
+		}
+	}
+
+	public function insertKecamatan()
+	{
+		$data = [
+			'kecamatan' => $this->input->post('kecamatan')
+		];
+
+		$insert = $this->kecamatan_model->insertKecamatan($data);
+		if ($insert == true) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil menambahkan kecamatan baru'
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal menambahkan kecamatan baru'
+			];
+
+			echo json_encode($response);
 		}
 	}
 }
