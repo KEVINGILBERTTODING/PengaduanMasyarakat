@@ -249,4 +249,18 @@ class User_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function getUserByUsername($username)
+	{
+		$this->db->select('username');
+		$this->db->from('user');
+		$this->db->where('username', $username);
+		$cek =  $this->db->get()->result();
+
+		if ($cek != null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

@@ -86,31 +86,42 @@ class ManajemenData extends CI_Controller
 
 	public function insertUser()
 	{
-		$data = [
-			'nama' => $this->input->post('nama'),
-			'username' => $this->input->post('username'),
-			'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-			'no_telepon' => $this->input->post('no_telepon'),
-			'jabatan' => 'operator'
-		];
 
-		$insert = $this->user_model->insertUser($data);
-		if ($insert == true) {
+		$username = $this->input->post('username');
+		if ($this->user_model->getUserByUsername($username) == false) {
 			$response = [
-				'status' => 'success',
-				'code' => 200,
-				'message' => 'Berhasil menambahkan user baru'
+				'status' => 'error',
+				'message' => 'Username telah digunakan'
 			];
 
 			echo json_encode($response);
 		} else {
-			$response = [
-				'status' => 'error',
-				'code' => 500,
-				'message' => 'Gagal menambahkan user baru'
+			$data = [
+				'nama' => $this->input->post('nama'),
+				'username' => $this->input->post('username'),
+				'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+				'no_telepon' => $this->input->post('no_telepon'),
+				'jabatan' => 'operator'
 			];
 
-			echo json_encode($response);
+			$insert = $this->user_model->insertUser($data);
+			if ($insert == true) {
+				$response = [
+					'status' => 'success',
+					'code' => 200,
+					'message' => 'Berhasil menambahkan user baru'
+				];
+
+				echo json_encode($response);
+			} else {
+				$response = [
+					'status' => 'error',
+					'code' => 500,
+					'message' => 'Gagal menambahkan user baru'
+				];
+
+				echo json_encode($response);
+			}
 		}
 	}
 }
