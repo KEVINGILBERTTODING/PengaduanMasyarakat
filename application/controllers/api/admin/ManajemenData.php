@@ -75,6 +75,44 @@ class ManajemenData extends CI_Controller
 			echo json_encode($response);
 		}
 	}
+
+	public function getUserByUserId()
+	{
+		$idUser = $this->input->get('id_user');
+		$data = $this->user_model->getUserByuserId2($idUser);
+
+		echo json_encode($data);
+	}
+
+	public function insertUser()
+	{
+		$data = [
+			'nama' => $this->input->post('nama'),
+			'username' => $this->input->post('username'),
+			'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+			'no_telepon' => $this->input->post('no_telepon'),
+			'jabatan' => 'operator'
+		];
+
+		$insert = $this->user_model->insertUser($data);
+		if ($insert == true) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil menambahkan user baru'
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal menambahkan user baru'
+			];
+
+			echo json_encode($response);
+		}
+	}
 }
 
 

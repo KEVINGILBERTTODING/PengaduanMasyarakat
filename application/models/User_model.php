@@ -231,4 +231,22 @@ class User_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function getUserByuserId2($id)
+	{
+		$this->db->select('*');
+		$this->db->from('user');
+		$this->db->where('id_user', $id);
+		return $this->db->get()->result();
+	}
+
+	public function insertUser($data)
+	{
+		$insert = $this->db->insert('user', $data);
+		if ($insert) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
