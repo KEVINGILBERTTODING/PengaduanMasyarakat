@@ -193,6 +193,30 @@ class User_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('user');
 		$this->db->where('id_user', $id);
+		$this->db->order_by('username', 'desc');
+
 		return $this->db->get()->result_array();
+	}
+
+
+	public function getAllUser($userId)
+	{
+		$this->db->select('*');
+		$this->db->from('user');
+		$this->db->where('id_user !=', $userId);
+		$this->db->order_by('username', 'DESC');
+		return $this->db->get()->result();
+	}
+
+	public function deleteUserbyUserId($userID)
+	{
+		$delete = $this->db->where('id_user', $userID);
+		$delete = $this->db->delete('user');
+
+		if ($delete) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
