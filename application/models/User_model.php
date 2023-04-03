@@ -162,4 +162,37 @@ class User_model extends CI_Model
 			}
 		}
 	}
+
+	public function passAdminValidation($userId, $passwordOld)
+	{
+		$this->db->select('password');
+		$this->db->from('user');
+		$this->db->where('id_user', $userId);
+		$dataUser = $this->db->get()->row_array();
+
+		if (password_verify($passwordOld, $dataUser['password'])) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function updateAdmin($id, $data)
+	{
+		$update = $this->db->where('id_user', $id);
+		$update = $this->db->update('user', $data);
+		if ($update) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function getAdminByUserId($id)
+	{
+		$this->db->select('*');
+		$this->db->from('user');
+		$this->db->where('id_user', $id);
+		return $this->db->get()->result_array();
+	}
 }

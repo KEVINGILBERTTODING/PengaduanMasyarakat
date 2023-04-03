@@ -218,6 +218,79 @@ class Auth extends CI_Controller
 			echo json_encode($response);
 		}
 	}
+
+
+	public function updatePasswordAdmin()
+	{
+		$passwordOld = $this->input->post("password_old");
+		$passwordNew = $this->input->post("password_new");
+		$id_user = $this->input->post("id_user");
+
+		$validatePass = $this->user_model->passAdminValidation($id_user, $passwordOld);
+		if ($validatePass == true) {
+			$data = [
+				'password' => password_hash($passwordNew, PASSWORD_DEFAULT)
+			];
+
+			$update = $this->user_model->updateAdmin($id_user, $data);
+			if ($update == true) {
+				$response = [
+					'status' => 'success',
+					'code' => 200,
+					'message' => 'Berhasil mengubah password'
+				];
+
+				echo json_encode($response);
+			} else {
+				$response = [
+					'status' => "error",
+					'code' => 500,
+					'message' => 'Gagal mengubah password'
+				];
+				echo json_encode($response);
+			}
+		} else {
+			$response = [
+				'status' => "error",
+				'code' => 500,
+				'message' => 'Password lama tidak sesuai'
+			];
+			echo json_encode($response);
+		}
+	}
+
+
+	public function updateProfileAdmin()
+	{
+
+		$nama = $this->input->post("nama");
+		$no_telp = $this->input->post("no_telp");
+		$idUser = $this->input->post("id_user");
+		$data = [
+			'nama' => $nama,
+			'no_telepon' => $no_telp
+		];
+
+
+		$update = $this->user_model->updateAdmin($idUser, $data);
+		if ($update ==  true) {
+			$response = [
+				'status' => "success",
+				'code' => 200,
+				'message' => "Berhasil mengubah profile"
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => "error",
+				'code' => 500,
+				'message' => "Gagal mengubah profile admin"
+			];
+
+			echo json_encode($response);
+		}
+	}
 }
 
 
