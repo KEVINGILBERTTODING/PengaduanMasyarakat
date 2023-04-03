@@ -69,13 +69,13 @@ class LaporanPengaduan extends CI_Controller
 
 		if ($jenis == "semua") {
 			$data['pengaduan'] = $this->Pengaduan_model->getFilterPengaduanSemua($idMasyarakat, $dateFrom, $dateEnd);
+			$this->pdflib->loadView('v_laporan_pengaduan', $data);
 		} else {
 
 
 			$data['pengaduan'] = $this->Pengaduan_model->getFilterPengaduan($jenis, $idMasyarakat, $dateFrom, $dateEnd);
+			$this->pdflib->loadView('v_laporan_pengaduan', $data);
 		}
-
-		$this->pdflib->loadView('v_laporan_pengaduan', $data);
 	}
 }
 

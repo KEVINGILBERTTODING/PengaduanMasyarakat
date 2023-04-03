@@ -144,4 +144,22 @@ class User_model extends CI_Model
 		$this->db->where('id_masyarakat', $id);
 		return $this->db->get()->result_array();
 	}
+	public function authAdmin($username, $password)
+	{
+		$this->db->select('*');
+		$this->db->from('user');
+		$this->db->where('username', $username);
+		$rsltUnm = $this->db->get()->row_array();
+
+		if ($rsltUnm == null) {
+			return false;
+		} else {
+
+			if (password_verify($password, $rsltUnm['password'])) {
+				return $rsltUnm;
+			} else {
+				return false;
+			}
+		}
+	}
 }

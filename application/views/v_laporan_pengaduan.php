@@ -19,19 +19,6 @@
 			padding: 5px;
 			text-align: left;
 		}
-
-		table#t01 tr:nth-child(even) {
-			background-color: #eee;
-		}
-
-		table#t01 tr:nth-child(odd) {
-			background-color: #fff;
-		}
-
-		table#t01 th {
-			background-color: black;
-			color: white;
-		}
 	</style>
 </head>
 

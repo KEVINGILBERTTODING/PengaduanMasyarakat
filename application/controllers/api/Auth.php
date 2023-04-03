@@ -186,6 +186,38 @@ class Auth extends CI_Controller
 			echo json_encode($response);
 		}
 	}
+
+
+	public function loginAdmin()
+	{
+
+		$username = $this->input->post('username');
+		$password = $this->input->post('password');
+		$validate = $this->user_model->authAdmin($username, $password);
+
+		if ($validate != false) {
+			$response = [
+				'status' => "success",
+				'code' => 200,
+				'message' => 'Selamat Datang' . ' ' . $validate['username'],
+				'username' => $validate['username'],
+				'nama' => $validate['nama'],
+				'id_user' => $validate['id_user'],
+				'jabatan' => $validate['jabatan']
+
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => "error",
+				'code' => 500,
+				'message' => 'Username atau password anda salah'
+			];
+
+			echo json_encode($response);
+		}
+	}
 }
 
 
