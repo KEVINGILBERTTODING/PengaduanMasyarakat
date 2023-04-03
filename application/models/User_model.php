@@ -263,4 +263,60 @@ class User_model extends CI_Model
 			return true;
 		}
 	}
+
+	public function deleteMasyarakatbyUserId($userID)
+	{
+		$delete = $this->db->where('id_masyarakat', $userID);
+		$delete = $this->db->delete('masyarakat');
+
+		if ($delete) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function updateMasyarakatById($idUser, $data)
+	{
+		$update = $this->db->where('id_masyarakat', $idUser);
+		$update = $this->db->update('masyarakat', $data);
+
+		if ($update) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function getMasyarakatById($id)
+	{
+		$this->db->select('*');
+		$this->db->from('masyarakat');
+		$this->db->where('id_masyarakat', $id);
+		return $this->db->get()->result();
+	}
+
+	public function getMasyarakatByUsername($username)
+	{
+		$this->db->select('username');
+		$this->db->from('masyarakat');
+		$this->db->where('username', $username);
+		$cek =  $this->db->get()->result();
+
+		if ($cek != null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public function insertMasyarakat($data)
+	{
+		$insert = $this->db->insert('masyarakat', $data);
+		if ($insert) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

@@ -124,6 +124,110 @@ class ManajemenData extends CI_Controller
 			}
 		}
 	}
+
+	public function deleteMasyarakatbyUserId()
+	{
+		$userId = $this->input->post('id_masyarakat');
+		$delete = $this->user_model->deleteMasyarakatbyUserId($userId);
+		if ($delete == true) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil menghapus masyarakat'
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal menghapus masyarakat'
+			];
+
+			echo json_encode($response);
+		}
+
+		# code...
+	}
+
+	public function updateMasyarakat()
+	{
+		$idUser = $this->input->post('id_masyarakat');
+		$data = [
+			'nama' => $this->input->post('nama'),
+			'no_telepon' => $this->input->post('no_telp'),
+			'alamat' => $this->input->post('alamat'),
+			'nik' => $this->input->post('nik')
+		];
+		$update = $this->user_model->updateMasyarakatById($idUser, $data);
+
+		if ($update) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil mengubah data'
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal mengubah data'
+			];
+
+			echo json_encode($response);
+		}
+	}
+
+	public function getMasyarakatById()
+	{
+		$idUser = $this->input->get('id_masyarakat');
+		$data = $this->user_model->getMasyarakatById($idUser);
+		echo json_encode($data);
+	}
+
+	public function insertMasyarakat()
+	{
+
+		$username = $this->input->post('username');
+		if ($this->user_model->getMasyarakatByUsername($username) == false) {
+			$response = [
+				'status' => 'error',
+				'message' => 'Username telah digunakan'
+			];
+
+			echo json_encode($response);
+		} else {
+			$data = [
+				'nama' => $this->input->post('nama'),
+				'username' => $this->input->post('username'),
+				'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+				'no_telepon' => $this->input->post('no_telepon'),
+				'nik' => $this->input->post('nik'),
+				'alamat' => $this->input->post('alamat')
+			];
+
+			$insert = $this->user_model->insertMasyarakat($data);
+			if ($insert == true) {
+				$response = [
+					'status' => 'success',
+					'code' => 200,
+					'message' => 'Berhasil menambahkan masyarakat baru'
+				];
+
+				echo json_encode($response);
+			} else {
+				$response = [
+					'status' => 'error',
+					'code' => 500,
+					'message' => 'Gagal menambahkan masyarakat baru'
+				];
+
+				echo json_encode($response);
+			}
+		}
+	}
 }
 
 
