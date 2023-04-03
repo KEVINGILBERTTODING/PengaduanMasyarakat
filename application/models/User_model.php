@@ -219,4 +219,16 @@ class User_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function updateUserById($idUser, $data)
+	{
+		$update = $this->db->where('id_user', $idUser);
+		$update = $this->db->update('user', $data);
+
+		if ($update) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

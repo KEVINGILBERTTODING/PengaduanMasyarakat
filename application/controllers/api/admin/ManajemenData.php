@@ -47,6 +47,34 @@ class ManajemenData extends CI_Controller
 
 		# code...
 	}
+
+	public function ubahProfileUser()
+	{
+		$idUser = $this->input->post('id_user');
+		$data = [
+			'nama' => $this->input->post('nama'),
+			'no_telepon' => $this->input->post('no_telp')
+		];
+		$update = $this->user_model->updateUserById($idUser, $data);
+
+		if ($update) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil mengubah data'
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal mengubah data'
+			];
+
+			echo json_encode($response);
+		}
+	}
 }
 
 
