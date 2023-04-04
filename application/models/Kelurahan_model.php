@@ -1,7 +1,7 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kelurahan_model extends CI_Model 
+class Kelurahan_model extends CI_Model
 {
 	public function __construct()
 	{
@@ -20,7 +20,7 @@ class Kelurahan_model extends CI_Model
 	public function getKelurahanById($id_kelurahan)
 	{
 		$this->db->join('kecamatan', 'kelurahan.id_kecamatan=kecamatan.id_kecamatan');
-		return $this->db->get_where('kelurahan', ['id_kelurahan' => $id_kelurahan])->row_array();	
+		return $this->db->get_where('kelurahan', ['id_kelurahan' => $id_kelurahan])->row_array();
 	}
 
 	public function addKelurahan()
@@ -70,12 +70,53 @@ class Kelurahan_model extends CI_Model
 
 		$data_kelurahan = $this->getKelurahanById($id_kelurahan);
 		$kelurahan  = $data_kelurahan['kelurahan'];
-		
+
 		$this->db->delete('pengaduan', ['id_kelurahan' => $id_kelurahan]);
 		$this->db->delete('kelurahan', ['id_kelurahan' => $id_kelurahan]);
 		$isi_log = 'Kelurahan ' . $kelurahan . ' berhasil dihapus';
 		$this->lomo->addLog($isi_log, $dataUser['id_user']);
 		$this->session->set_flashdata('message-success', $isi_log);
-		redirect('kelurahan'); 
+		redirect('kelurahan');
+	}
+
+	public function getAllKelurahan()
+	{
+		$this->db->select('*');
+		$this->db->from('kelurahan');
+		return $this->db->get()->result();
+	}
+
+	public function insertKelurahan($data)
+	{
+		$insert = $this->db->insert('kelurahan', $data);
+		if ($insert) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function deleteKelurahan($id)
+	{
+		$delete = $this->db->where('id_kelurahan', $id);
+		$delete = $this->db->delete('kelurahan');
+
+		if ($delete) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function updateKelurahan($id, $data)
+	{
+		$update = $this->db->where('id_kelurahan', $id);
+		$update = $this->db->update('kelurahan', $data);
+
+		if ($update) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

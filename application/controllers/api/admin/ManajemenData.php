@@ -10,6 +10,7 @@ class ManajemenData extends CI_Controller
 		parent::__construct();
 		$this->load->model('User_model', 'user_model');
 		$this->load->model('Kecamatan_model', 'kecamatan_model');
+		$this->load->model('Kelurahan_model', 'kelurahan_model');
 	}
 	public function getAllUser()
 	{
@@ -309,6 +310,94 @@ class ManajemenData extends CI_Controller
 				'code' => 500,
 				'message' => 'Gagal menambahkan kecamatan baru'
 			];
+
+			echo json_encode($response);
+		}
+	}
+
+
+
+	public function getKelurahan()
+	{
+		$data = $this->kelurahan_model->getAllKelurahan();
+		echo json_encode($data);
+	}
+
+	public function insertKelurahan()
+	{
+		$data = [
+			'kelurahan' => $this->input->post('kelurahan'),
+			'id_kecamatan' => $this->input->post('id_kecamatan')
+		];
+
+		$insert = $this->kelurahan_model->insertKelurahan($data);
+		if ($insert == true) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil menambahkan kelurahan baru'
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal menambahkan kelurahan baru'
+			];
+
+			echo json_encode($response);
+		}
+	}
+
+	public function deleteKelurahan()
+	{
+		$idKelurahan = $this->input->post('id_kelurahan');
+		$delete = $this->kelurahan_model->deleteKelurahan($idKelurahan);
+		if ($delete == true) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil mengahapus kelurahan'
+			];
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal mengahapus kecamatan'
+			];
+
+			echo json_encode($response);
+		}
+	}
+
+	public function updateKelurahan()
+	{
+		$idKelurahan = $this->input->post('id_kelurahan');
+		$idKecamatan = $this->input->post('id_kecamatan');
+		$data = [
+			'kelurahan' => $this->input->post('kelurahan'),
+			'id_kecamatan' => $idKecamatan
+		];
+		$update = $this->kelurahan_model->updateKelurahan($idKelurahan, $data);
+		if ($update == true) {
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil mengubah data kelurahan'
+			];
+
+
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal mengubah data kelurahan'
+			];
+
 
 			echo json_encode($response);
 		}
