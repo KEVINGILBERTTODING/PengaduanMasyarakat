@@ -187,4 +187,26 @@ class Tanggapan_model extends CI_Model
 		$this->db->where('tanggapan.id_pengaduan', $idPengaduan);
 		return $this->db->get()->result();
 	}
+
+
+	public function getTanggapannById2($idPengaduan)
+	{
+		$this->db->select('tanggapan.*, user.username, pengaduan.status_pengaduan as status_pengaduan');
+		$this->db->from('tanggapan');
+		$this->db->join('user', 'user.id_user = tanggapan.id_user', 'left');
+		$this->db->join('pengaduan', 'pengaduan.id_pengaduan = tanggapan.id_pengaduan', 'left');
+		$this->db->where('tanggapan.id_pengaduan', $idPengaduan);
+		return $this->db->get()->result();
+	}
+
+	public function insertTanggapan($data)
+	{
+		$insert = $this->db->insert('tanggapan', $data);
+		if ($insert) {
+			return true;
+		} else {
+			return false;
+			# code...
+		}
+	}
 }

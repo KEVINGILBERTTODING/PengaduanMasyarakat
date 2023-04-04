@@ -18,4 +18,11 @@ class Saran_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function getAllsaran()
+	{
+		$this->db->select('*');
+		$this->db->from('saran');
+		return $this->db->get()->result();
+	}
 }

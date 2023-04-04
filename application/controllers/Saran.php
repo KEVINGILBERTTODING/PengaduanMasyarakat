@@ -1,7 +1,7 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Saran extends CI_Controller 
+class Saran extends CI_Controller
 {
 	public function __construct()
 	{
@@ -20,5 +20,10 @@ class Saran extends CI_Controller
 		$this->load->view('templates/header-admin', $data);
 		$this->load->view('saran/index', $data);
 		$this->load->view('templates/footer-admin', $data);
+	}
+
+	public function getAllSaran()
+	{
+		echo json_encode($this->samo->getAllsaran());
 	}
 }
