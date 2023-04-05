@@ -209,4 +209,27 @@ class Tanggapan_model extends CI_Model
 			# code...
 		}
 	}
+
+	public function deleteTanggapan($idTanggapan)
+	{
+		$delete = $this->db->where('id_tanggapan', $idTanggapan);
+		$delete = $this->db->delete('tanggapan');
+
+		if ($delete) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function updateTanggapan($id, $data)
+	{
+		$update = $this->db->where('id_tanggapan', $id);
+		$update = $this->db->update('tanggapan', $data);
+		if ($update) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

@@ -118,15 +118,14 @@ class Pengaduan extends CI_Controller
 
 	public function filterPengaduan()
 	{
-		$idMasyarakat  = $this->input->get('id_masyarakat');
 		$jenis = $this->input->get('jenis');
 		$dateStart = $this->input->get('date_start');
 		$dateEnd = $this->input->get('date_end');
 
 		if ($jenis == "semua") {
-			$data = $this->pengaduan_model->getFilterPengaduanSemua($idMasyarakat, $dateStart, $dateEnd);
+			$data = $this->pengaduan_model->getFilterPengaduanAdminSemua($dateStart, $dateEnd);
 		} else {
-			$data = $this->pengaduan_model->getFilterPengaduan($jenis, $idMasyarakat, $dateStart, $dateEnd);
+			$data = $this->pengaduan_model->getFilterPengaduanAdmin($jenis, $dateStart, $dateEnd);
 		}
 		echo json_encode($data);
 	}

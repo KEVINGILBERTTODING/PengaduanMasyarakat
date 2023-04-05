@@ -89,6 +89,135 @@ class Tanggapan extends CI_Controller
 			}
 		}
 	}
+
+	public function deleteTanggapan()
+	{
+		$idTanggapan = $this->input->post('id_tanggapan');
+		$idPengaduan = $this->input->post('id_pengaduan');
+		$statusPengaduan = $this->input->post('status_pengaduan');
+		$delete = $this->Tanggapan_model->deleteTanggapan($idTanggapan);
+
+		if ($delete == true) {
+
+			$data = [
+				'status_pengaduan' => $statusPengaduan
+			];
+			$update = $this->pengaduan_model->updatePengaduan($idPengaduan, $data);
+			if ($update == true) {
+				$response = [
+					'status' => 'success'
+				];
+
+				echo json_encode($response);
+			} else {
+				$response = [
+					'status' => 'error'
+				];
+
+				echo json_encode($response);
+			}
+		} else {
+			$response = [
+				'status' => 'error'
+			];
+
+			echo json_encode($response);
+		}
+	}
+
+	public function updateTanggapan1()
+	{
+
+		$config['upload_path'] = './assets/img/img_tanggapan/';
+		$config['allowed_types'] = 'gif|jpg|jpeg|png';
+		$config['max_size'] = '2048';
+
+		$this->load->library('upload', $config);
+		$data = array();
+
+		if ($this->upload->do_upload('foto')) {
+			$data['foto'] = $this->upload->data('file_name');
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 400
+
+			];
+			echo json_encode($response);
+		}
+
+
+		if (isset($data['error'])) {
+			// echo json_encode($data['error']);
+		} else {
+
+			$isiTanggapan = $this->input->post('isi_tanggapan');
+			$tglTanggapan = date('Y-m-d H:i:s');
+			$id_user = $this->input->post('id_user');
+			$idTanggapan = $this->input->post('id_tanggapan');
+
+
+
+			$data = [
+				'isi_tanggapan' => $isiTanggapan,
+				'tgl_tanggapan' => $tglTanggapan,
+				'foto_tanggapan' => $data['foto'],
+				'id_user' => $id_user
+			];
+
+			$insert = $this->Tanggapan_model->updateTanggapan($idTanggapan, $data);
+			if ($insert == true) {
+
+				$response = [
+					'status' => 'success',
+					'code' => 200,
+					'message' => 'Berhasil mengubah tanggapan'
+				];
+				echo json_encode($response);
+			} else {
+				$response = [
+					'status' => 'error',
+					'code' => 500,
+					'message' => 'Gagal mengubah tanggapan'
+				];
+				echo json_encode($response);
+			}
+		}
+	}
+
+	public function updateTanggapan2()
+	{
+
+
+		$isiTanggapan = $this->input->post('isi_tanggapan');
+		$tglTanggapan = date('Y-m-d H:i:s');
+		$id_user = $this->input->post('id_user');
+		$idTanggapan = $this->input->post('id_tanggapan');
+
+		$data = [
+			'isi_tanggapan' => $isiTanggapan,
+			'tgl_tanggapan' => $tglTanggapan,
+			'id_user' => $id_user
+		];
+
+		$insert = $this->Tanggapan_model->updateTanggapan($idTanggapan, $data);
+		if ($insert == true) {
+
+			$response = [
+				'status' => 'success',
+				'code' => 200,
+				'message' => 'Berhasil mengubah tanggapan'
+			];
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 'error',
+				'code' => 500,
+				'message' => 'Gagal mengubah tanggapan'
+			];
+			echo json_encode($response);
+		}
+	}
 }
 
 
